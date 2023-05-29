@@ -316,9 +316,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                   TextButton(
                     onPressed: () {
                       signUp();
-                      if (!_makeAccountState) {
-                        Navigator.pop(context);
-                      }
+                      Navigator.pop(context);
+                      if (!_makeAccountState) {}
                       //Navigator.pop(context);
                     },
                     child: const Text(

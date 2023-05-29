@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:grad_gg/screen/editprofile_screen.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -98,12 +99,12 @@ class _MyCardState extends State<MyCard> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  '졸업.GG',
+                  'Grad.GG',
                   style: TextStyle(
                     //글자 스타일
                     color: Colors.black, //글자 색 설정
                     letterSpacing: 2.0, //글자 자간설정
-                    fontSize: 70.0, //폰트크기설정
+                    fontSize: 60.0, //폰트크기설정
                     fontWeight: FontWeight.w900, //두께설정
                   ),
                 ),
@@ -148,51 +149,61 @@ class _MyCardState extends State<MyCard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Container(
-                  //MYSPACE
-                  alignment: Alignment.lerp(Alignment.center,
-                      Alignment.bottomCenter, 0.5), // 가로 가운데, 세로 아래 정렬
-                  width:
-                      MediaQuery.of(context).size.width * 0.4, // 화면 가로 길이의 0.4배
-                  height:
-                      MediaQuery.of(context).size.width * 0.4, // 화면 세로 길이의 0.4배
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(0),
-                  ),
-                  // 네모박스 내부에 들어갈 내용
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      GestureDetector(
-                          onTap: () {
-                            _showBottomSheet();
-                          },
-                          child: _image == null
-                              ? const Icon(
-                                  Icons.account_circle,
-                                  size: 100,
-                                )
-                              : CircleAvatar(
-                                  backgroundImage: FileImage(_image!),
-                                  radius: 50,
-                                )),
-                      const Text(
-                        'USER_NAME',
-                        style: TextStyle(
-                          fontSize: 17.0, //폰트크기설정
-                          fontWeight: FontWeight.w800, //두께설정
-                        ),
+                GestureDetector(
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EditProfileScreen(),
                       ),
-                      const Text(
-                        'DEPARTMENTS',
-                        style: TextStyle(
-                          fontSize: 17.0, //폰트크기설정
-                          fontWeight: FontWeight.w800, //두께설정
+                    )
+                  },
+                  child: Container(
+                    //MYSPACE
+                    alignment: Alignment.lerp(Alignment.center,
+                        Alignment.bottomCenter, 0.5), // 가로 가운데, 세로 아래 정렬
+                    width: MediaQuery.of(context).size.width *
+                        0.4, // 화면 가로 길이의 0.4배
+                    height: MediaQuery.of(context).size.width *
+                        0.4, // 화면 세로 길이의 0.4배
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.grey,
+                      borderRadius: BorderRadius.circular(0),
+                    ),
+                    // 네모박스 내부에 들어갈 내용
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        GestureDetector(
+                            onTap: () {
+                              _showBottomSheet();
+                            },
+                            child: _image == null
+                                ? const Icon(
+                                    Icons.account_circle,
+                                    size: 100,
+                                  )
+                                : CircleAvatar(
+                                    backgroundImage: FileImage(_image!),
+                                    radius: 50,
+                                  )),
+                        const Text(
+                          'USER_NAME',
+                          style: TextStyle(
+                            fontSize: 17.0, //폰트크기설정
+                            fontWeight: FontWeight.w800, //두께설정
+                          ),
                         ),
-                      ),
-                    ],
+                        const Text(
+                          'DEPARTMENTS',
+                          style: TextStyle(
+                            fontSize: 17.0, //폰트크기설정
+                            fontWeight: FontWeight.w800, //두께설정
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ],

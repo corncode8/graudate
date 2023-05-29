@@ -35,11 +35,12 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
   initFavorite() async {
     late String docid;
     String userUid = getUserUid();
-    // final query =
-    //     await db.collection("학생").where("uuid", isEqualTo: userUid).get();
-    // docid = query.docs.first.id;
-    final data = await db.collection("학생").doc(userUid).get();
+    final query =
+        await db.collection("학생").where("uuid", isEqualTo: userUid).get();
+    docid = query.docs.first.id;
+    final data = await db.collection("학생").doc(docid).get();
     try {
+      print(data['favorite']);
       if (data['favorite'] != null) {
         setState(() {
           favorite = data['favorite'];
