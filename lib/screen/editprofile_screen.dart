@@ -32,13 +32,36 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   UpdateUserInfo() async {
+    late String docid;
     String userUid = getUserUid();
-    final data = await db.collection("학생").doc(userUid).get();
+    final query =
+        await db.collection("학생").where("uuid", isEqualTo: userUid).get();
+    docid = query.docs.first.id;
+    final data = await db.collection("학생").doc(docid).get();
     try {
-      //FirebaseAuth.instance.currentUser?.updateEmail(_emailTextController.text);
+      final auth = FirebaseAuth.instance.currentUser;
+      print("1여기까지 진행함");
+      String newEmail = _emailTextController.text;
+      if (newEmail != "") {
+        await auth!.updateEmail(newEmail);
+      } else {
+        newEmail = data['email'];
+      }
+      if (_nameTextController.text == "") {
+        _nameTextController.text = data['name'];
+      }
+      if (_schoolTextController.text == "") {
+        _schoolTextController.text = data['shcool'];
+      }
+      if (_departmentTextController.text == "") {
+        _departmentTextController.text = data['department'];
+      }
+      if (_curYearTextController.text == "") {
+        _curYearTextController.text = data['curriculumyear'];
+      }
       await db.collection("학생").doc(userUid).update(
         {
-          //"email": _emailTextController.text,
+          "email": newEmail,
           "name": _nameTextController.text,
           "school": _schoolTextController.text,
           "department": _departmentTextController.text,
@@ -103,11 +126,20 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               ),
               InputInfoTextField(_curYearTextController, "CurriculumYear",
                   Icons.featured_play_list, TextInputType.name),
-              ElevatedButton(
-                onPressed: () {
-                  UpdateUserInfo();
-                },
-                child: const Text("ClickThisButton"),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      UpdateUserInfo();
+                    },
+                    child: const Text("ChangeProfile"),
+                  ),
+                  ElevatedButton(
+                    onPressed: () => {Navigator.pop(context)},
+                    child: const Text("Cancel"),
+                  ),
+                ],
               )
             ],
           ),
