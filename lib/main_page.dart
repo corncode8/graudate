@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grad_gg/screen/editprofile_screen.dart';
 import 'package:grad_gg/screen/login_screen.dart';
 
 class MainPage extends StatefulWidget {
@@ -17,7 +18,7 @@ class _MainPageState extends State<MainPage> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const SearchScreen();
+            return const EditProfileScreen();
           } else {
             return const LoginScreen();
           }
