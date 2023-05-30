@@ -17,7 +17,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
   late List<String> displayList = [];
   late String lastRoute;
   bool isLiked = false;
-  List favorite = [];
+  Map favorite = {};
 
   getUserUid() {
     try {
@@ -48,7 +48,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
     } catch (e) {
       await db.collection("학생").doc(userUid).update(
         {
-          "favorite": [],
+          "favorite": {},
         },
       );
     }
@@ -56,10 +56,10 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
 
   toggleFavorite(String value) async {
     setState(() {
-      if (favorite.contains(value)) {
-        favorite.remove(value);
+      if (favorite[widget.termid].contains(value)) {
+        favorite[widget.termid].remove(value);
       } else {
-        favorite.add(value);
+        favorite[widget.termid].add(value);
       }
     });
     late String docid;
@@ -68,7 +68,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
         await db.collection("학생").where("uuid", isEqualTo: userUid).get();
     docid = query.docs.first.id;
     await db.collection("학생").doc(docid).update({
-      "favorite": favorite.toSet().toList(),
+      "favorite": favorite[widget.termid].toSet().toList(),
     });
   }
 
@@ -115,7 +115,12 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
             )
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                final isLiked = favorite.contains(displayList[index]);
+                print(widget.termid);
+                print(favorite[widget.termid]);
+                if (favorite[widget.termid].contains(displayList[index]) !=
+                    null) {
+                  const isLiked = true;
+                }
                 return Container(
                   child: ListTile(
                     onTap: () {
