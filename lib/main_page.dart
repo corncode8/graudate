@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grad_gg/screen/login_screen.dart';
-import 'package:grad_gg/screen/myspace_screen.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -18,7 +17,7 @@ class _MainPageState extends State<MainPage> {
         stream: FirebaseAuth.instance.authStateChanges(),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return const MySpaceScreen();
+            return const EditProfileScreen();
           } else {
             return const LoginScreen();
           }
