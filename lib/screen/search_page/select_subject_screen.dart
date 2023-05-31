@@ -17,7 +17,8 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
   late List<String> displayList = [];
   late String lastRoute;
   bool isLiked = false;
-  Map favorite = {};
+  List favorite = [];
+  Map dbFavorite = {};
 
   getUserUid() {
     try {
@@ -39,28 +40,34 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
         await db.collection("학생").where("uuid", isEqualTo: userUid).get();
     docid = query.docs.first.id;
     final data = await db.collection("학생").doc(docid).get();
+    dbFavorite = data['favorite'];
     try {
-      print(data['favorite']);
-      if (data['favorite'] != null) {
-        setState(() {
-          favorite = data['favorite'];
-        });
+      if (data['favorite'][widget.termid] != null) {
+        setState(
+          () {
+            dbFavorite = data['favorite'];
+            favorite = data['favorite'][widget.termid];
+          },
+        );
+      } else {
+        dbFavorite[widget.termid] = [];
+        await db.collection("학생").doc(userUid).update(
+          {
+            "favorite": dbFavorite,
+          },
+        );
       }
     } catch (e) {
-      await db.collection("학생").doc(userUid).update(
-        {
-          "favorite": {},
-        },
-      );
+      print("DBERORR OCURRED $e");
     }
   }
 
   toggleFavorite(String value) async {
     setState(() {
-      if (favorite[widget.termid].contains(value)) {
-        favorite[widget.termid].remove(value);
+      if (favorite.contains(value)) {
+        favorite.remove(value);
       } else {
-        favorite[widget.termid].add(value);
+        favorite.add(value);
       }
     });
     late String docid;
@@ -68,8 +75,9 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
     final query =
         await db.collection("학생").where("uuid", isEqualTo: userUid).get();
     docid = query.docs.first.id;
+    dbFavorite[widget.termid] = favorite.toSet().toList();
     await db.collection("학생").doc(docid).update({
-      "favorite": favorite[widget.termid].toSet().toList(),
+      "favorite": dbFavorite,
     });
   }
 
@@ -116,60 +124,62 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
             )
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                print(widget.termid);
-                print(favorite[widget.termid]);
-                if (favorite[widget.termid].contains(displayList[index]) !=
-                    null) {
-                  const isLiked = true;
+                if (favorite.contains(displayList[index])) {
+                  isLiked = true;
+                } else {
+                  isLiked = false;
                 }
-                return Container(
-                  child: ListTile(
-                    onTap: () {
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => SelectTermScreen(
-                      //       displayList[index],
-                      //       lastRoute,
-                      //     ),
-                      //   ),
-                      // );
-                    },
-                    //trailing: const Icon(Icons.hub_outlined),
-                    title: Text(
-                      displayList[index],
-                    ),
-                    leading: IconButton(
-                      icon: isLiked
-                          ? const Icon(
-                              Icons.favorite_outlined,
-                              color: Colors.red,
-                            )
-                          : const Icon(
-                              Icons.favorite_border_outlined,
-                              color: Colors.red,
-                            ),
-                      onPressed: () {
-                        toggleFavorite(displayList[index]);
+                {
+                  return Container(
+                    child: ListTile(
+                      onTap: () {
+                        // Navigator.push(
+                        //   context,
+                        //   MaterialPageRoute(
+                        //     builder: (context) => SelectTermScreen(
+                        //       displayList[index],
+                        //       lastRoute,
+                        //     ),
+                        //   ),
+                        // );
                       },
+                      //trailing: const Icon(Icons.hub_outlined),
+                      title: Text(
+                        displayList[index],
+                      ),
+                      leading: IconButton(
+                        icon: isLiked
+                            ? const Icon(
+                                Icons.favorite_outlined,
+                                color: Colors.red,
+                              )
+                            : const Icon(
+                                Icons.favorite_border_outlined,
+                                color: Colors.red,
+                              ),
+                        onPressed: () {
+                          toggleFavorite(displayList[index]);
+                        },
+                      ),
+                      // leading: IconButton(
+                      //   icon: isLiked
+                      //       ? const Icon(
+                      //           Icons.favorite_outlined,
+                      //           color: Colors.red,
+                      //         )
+                      //       : const Icon(
+                      //           Icons.favorite_border_outlined,
+                      //           color: Colors.red,
+                      //         ),
+                      //   onPressed: () {
+                      //     toggleFavorite(displayList[index]);
+                      //   },
+                      // ),
+                      subtitle: const Text("subtitle"),
                     ),
-                    // leading: IconButton(
-                    //   icon: isLiked
-                    //       ? const Icon(
-                    //           Icons.favorite_outlined,
-                    //           color: Colors.red,
-                    //         )
-                    //       : const Icon(
-                    //           Icons.favorite_border_outlined,
-                    //           color: Colors.red,
-                    //         ),
-                    //   onPressed: () {
-                    //     toggleFavorite(displayList[index]);
-                    //   },
-                    // ),
-                    subtitle: const Text("subtitle"),
-                  ),
-                );
+                  );
+                }
+                return null;
               },
               itemCount: displayList.length,
             ),
