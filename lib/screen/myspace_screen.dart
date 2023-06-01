@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
 import 'package:grad_gg/screen/editprofile_screen.dart';
+import 'package:grad_gg/screen/search_page/search_page.dart';
 import 'dart:io';
 import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -211,20 +212,30 @@ class _MyCardState extends State<MyCard> {
             const SizedBox(
               height: 20.0, //여백추가
             ),
-            Container(
-              //졸업요건화면
-              alignment: Alignment.center, // 가로, 세로 가운데 정렬
-              width: MediaQuery.of(context).size.width * 0.85,
-              height: MediaQuery.of(context).size.width * 0.3,
-              decoration: BoxDecoration(
-                color: Colors.grey,
-                borderRadius: BorderRadius.circular(0),
-              ),
-              child: const Text(
-                '졸업요건 화면',
-                style: TextStyle(
-                  fontSize: 15.0, //폰트크기설정
-                  fontWeight: FontWeight.bold, //두께설정
+            GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: ((context) => const SearchScreen()),
+                  ),
+                );
+              },
+              child: Container(
+                //졸업요건화면
+                alignment: Alignment.center, // 가로, 세로 가운데 정렬
+                width: MediaQuery.of(context).size.width * 0.85,
+                height: MediaQuery.of(context).size.width * 0.3,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(0),
+                ),
+                child: const Text(
+                  '졸업요건 화면',
+                  style: TextStyle(
+                    fontSize: 15.0, //폰트크기설정
+                    fontWeight: FontWeight.bold, //두께설정
+                  ),
                 ),
               ),
             ),

@@ -63,32 +63,32 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
     });
   }
 
-  initFavorite() async {
-    late String docid;
-    String userUid = getUserUid();
-    // final query =
-    //     await db.collection("학생").where("uuid", isEqualTo: userUid).get();
-    // docid = query.docs.first.id;
-    final data = await db.collection("학생").doc(userUid).get();
-    try {
-      if (data['favorite'].data() != null) {
-        setState(() {
-          favorite = data['favorite'];
-        });
-      }
-    } catch (e) {
-      await db.collection("학생").doc(userUid).update(
-        {
-          "favorite": [],
-        },
-      );
-    }
-  }
+  // initFavorite() async {
+  //   late String docid;
+  //   String userUid = getUserUid();
+  //   // final query =
+  //   //     await db.collection("학생").where("uuid", isEqualTo: userUid).get();
+  //   // docid = query.docs.first.id;
+  //   final data = await db.collection("학생").doc(userUid).get();
+  //   try {
+  //     if (data['favorite'].data() != null) {
+  //       setState(() {
+  //         favorite = data['favorite'];
+  //       });
+  //     }
+  //   } catch (e) {
+  //     await db.collection("학생").doc(userUid).update(
+  //       {
+  //         "favorite": [],
+  //       },
+  //     );
+  //   }
+  // }
 
   @override
   void initState() {
     // TODO: implement initState
-    initFavorite();
+    //initFavorite();
     collectCollegeList();
     super.initState();
   }

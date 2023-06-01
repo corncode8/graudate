@@ -95,8 +95,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        collectSearchList();
-                        //Navigator.pushReplacementNamed(context, '/myspacePage');
+                        Navigator.pushReplacementNamed(context, '/myspacePage');
                       },
                       child: const Text("Myspace"),
                     ),
