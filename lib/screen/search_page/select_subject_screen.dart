@@ -17,7 +17,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
   late List<String> displayList = [];
   late String lastRoute;
   bool isLiked = false;
-  List favorite = [];
+  Map favorite = {};
   Map dbFavorite = {};
 
   getUserUid() {
@@ -50,7 +50,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
           },
         );
       } else {
-        dbFavorite[widget.termid] = [];
+        dbFavorite[widget.termid] = {};
         await db.collection("학생").doc(userUid).update(
           {
             "favorite": dbFavorite,
@@ -58,16 +58,29 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
         );
       }
     } catch (e) {
+      await db.collection("학생").doc(userUid).update(
+        {
+          "favorite": {},
+        },
+      );
       print("DBERORR OCURRED $e");
     }
   }
 
+  dataTest() async {
+    final collRef = db.collection(widget.inputRoute).doc(widget.termid);
+    final data = await collRef.get();
+    print(favorite);
+  }
+
   toggleFavorite(String value) async {
+    final collRef = db.collection(widget.inputRoute).doc(widget.termid);
+    final data = await collRef.get();
     setState(() {
-      if (favorite.contains(value)) {
+      if (favorite[value] != null) {
         favorite.remove(value);
       } else {
-        favorite.add(value);
+        favorite[value] = data[value];
       }
     });
     late String docid;
@@ -75,7 +88,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
     final query =
         await db.collection("학생").where("uuid", isEqualTo: userUid).get();
     docid = query.docs.first.id;
-    dbFavorite[widget.termid] = favorite.toSet().toList();
+    dbFavorite[widget.termid] = favorite;
     await db.collection("학생").doc(docid).update({
       "favorite": dbFavorite,
     });
@@ -113,7 +126,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
           IconButton(
               onPressed: () {
                 print("눌렀음");
-                collectSubjectList();
+                dataTest();
               },
               icon: const Icon(Icons.tab))
         ],
@@ -124,11 +137,12 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
             )
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                if (favorite.contains(displayList[index])) {
+                if (favorite[displayList[index]] != null) {
                   isLiked = true;
                 } else {
                   isLiked = false;
                 }
+
                 {
                   return Container(
                     child: ListTile(
