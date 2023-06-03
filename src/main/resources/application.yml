@@ -1,0 +1,7 @@
+spring:
+  gcp:
+    firestore:
+      projectId: gnu-graduate-p1
+      credentials:
+        location: src/main/resources/gnu-graduate-p1-firebase.json
+        type: service_account
