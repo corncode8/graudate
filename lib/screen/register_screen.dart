@@ -15,7 +15,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   final _confirmPasswordController = TextEditingController();
   final _nameController = TextEditingController();
   final _schoolController = TextEditingController();
-  late final bool _makeAccountState;
 
   // final _valueList = ['경상대학교', 'XX대학교', 'OO대학교'];
   // final String _selectedValue = '경상대학교';
@@ -23,7 +22,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    _makeAccountState = true;
     super.initState();
   }
 
@@ -94,9 +92,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
         userUid.trim(),
       );
       print("계정등록 완료!");
-      setState(() {
-        _makeAccountState = false;
-      });
       //const ProfileScreen();
     } else {
       alertDialog();
@@ -317,8 +312,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     onPressed: () {
                       signUp();
                       Navigator.pop(context);
-                      if (!_makeAccountState) {}
-                      //Navigator.pop(context);
                     },
                     child: const Text(
                       'Register',
@@ -336,11 +329,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
               GestureDetector(
                 onTap: () {
                   signUp();
-                  if (!_makeAccountState) {
-                    Navigator.pop(context);
-                  }
-                  //Navigator.pop(context);
-                  print("눌러짐");
                 },
                 child: RichText(
                   text: const TextSpan(
