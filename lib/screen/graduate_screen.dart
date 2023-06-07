@@ -51,7 +51,7 @@ class _AppState extends State<GraduatingScreen> {
     if (userUid != null) {
       QuerySnapshot userSnapshots = await FirebaseFirestore.instance
           .collection('학생')
-          .where('uid', isEqualTo: userUid)
+          .where('uuid', isEqualTo: userUid)
           .get();
 
       if (userSnapshots.docs.isNotEmpty) {
@@ -82,7 +82,7 @@ class _AppState extends State<GraduatingScreen> {
     if (userUid != null) {
       QuerySnapshot userSnapshots = await FirebaseFirestore.instance
           .collection('학생')
-          .where('uid', isEqualTo: userUid)
+          .where('uuid', isEqualTo: userUid)
           .get();
 
       userSnapshots.docs.forEach((docSnapshot) async {
@@ -109,10 +109,6 @@ class _AppState extends State<GraduatingScreen> {
 
   @override
   Widget build(BuildContext context) {
-    //printSubjectValues();
-    //printUserFavorite();
-    //printUserFavoritelast();
-
 
     return MaterialApp(
       title: 'grad page',
@@ -128,7 +124,7 @@ class _AppState extends State<GraduatingScreen> {
               children: [
                 const SizedBox(height: 40,
                 ),
-                const Text('Grad.gg',
+                const Text('졸업.GG',
                   style: TextStyle(
                     fontSize: 55,
                     fontWeight: FontWeight.w600,
@@ -142,9 +138,9 @@ class _AppState extends State<GraduatingScreen> {
                     color: Colors.black,
                   ),
                 ),
-                const SizedBox(height: 60,
+                const SizedBox(height: 40,
                 ),
-                const Text('GRADUATING',
+                const Text('졸업요소',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.w700,
@@ -293,7 +289,7 @@ class _AppState extends State<GraduatingScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const SizedBox(height: 28,
+                      const SizedBox(height: 45,
                       ),
                       const Text('선택요소 (택 1)',
                         style: TextStyle(
@@ -312,7 +308,7 @@ class _AppState extends State<GraduatingScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      SizedBox(height: 30),
+                      SizedBox(height: 20),
                       // 여기에 SizedBox를 추가하여 영어인증제 단어를 2칸 밑으로 내립니다.
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -477,6 +473,7 @@ class _AppState extends State<GraduatingScreen> {
                           ),
                         ],
                       ),
+                      SizedBox(height: 35),
                     ],
                   ),
                 ),

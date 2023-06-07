@@ -46,25 +46,44 @@ class _MainScreenState extends State<MainScreen> {
     );
   }*/
 
+  getUserUid() {
+    try {
+      if (FirebaseAuth.instance.currentUser != null) {
+        print("uid: ${FirebaseAuth.instance.currentUser?.uid}");
+        return (FirebaseAuth.instance.currentUser?.uid)!;
+      }
+    } on FirebaseAuthException catch (e) {
+      if (e.code == "user-not-found") {
+        print("user not found in");
+        return e.code.toString();
+      }
+    }
+  }
 
 
+  Stream<QuerySnapshot> getStudentData() {
+    print("call getStudentData");
+    return FirebaseFirestore.instance.collection("학생").snapshots();
+  }
+
+/*
   Future<void> getStudentData() async{
     await FirebaseFirestore.instance.collection("학생").snapshots().listen(
           (QuerySnapshot querySnapshot) {
         print("Data refreshed");
-        // for (var docSnapshot in querySnapshot.docs) {
-        //   if (docSnapshot['email'] == user!.email) {
-        //     userdoc = docSnapshot.id;
-        //     userName = docSnapshot['name'];
-        //     userSchool = docSnapshot['school'];
-        //     print(userName);
-        //     print(userSchool);
-        //   }
-        // }
+         for (var docSnapshot in querySnapshot.docs) {
+          if (docSnapshot['uuid'] == getUserUid()) {
+             userdoc = docSnapshot.id;
+             userName = docSnapshot['name'];
+             userSchool = docSnapshot['school'];
+           }
+         }
       },
       onError: (e) => print("Error: $e"),
     );
   }
+
+ */
 
 
   Future initPrefs() async {
@@ -155,7 +174,7 @@ class _MainScreenState extends State<MainScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start, //왼쪽정렬
                             children: [
-                              Text('Grad.gg',
+                              Text('졸업.gg',
                                 style: TextStyle( //글자 스타일
                                   color: Colors.black, //글자 색 설정
                                   letterSpacing: 2.0, //글자 자간설정
@@ -163,11 +182,44 @@ class _MainScreenState extends State<MainScreen> {
                                   fontWeight: FontWeight.w600, //두께설정
                                 ),
                               ),
+                              StreamBuilder<QuerySnapshot>(
+                                stream: getStudentData(),
+                                builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                  if (snapshot.hasError) {
+                                    return Text('Error: ${snapshot.error}');
+                                  }
 
-                              FutureBuilder( //userSchool 대기
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting:
+                                      return CircularProgressIndicator();
+                                    default:
+                                      var userName, userSchool;
+                                      for (var docSnapshot in snapshot.data!.docs) {
+                                        if (docSnapshot['uuid'] == getUserUid()) {
+                                          userdoc = docSnapshot.id;
+                                          userName = docSnapshot['name'];
+                                          userSchool = docSnapshot['school'];
+                                          print("정상적으로 uuid구분함.");
+                                          break;
+                                        }
+                                      }
+                                      print("username: $userName, userSchool: $userSchool");
+                                      return Text("$userSchool",
+                                        style: TextStyle( //글자 스타일
+                                          color: Colors.black, //글자 색 설정
+                                          letterSpacing: 2.0, //글자 자간설정
+                                          fontSize: 30.0, //폰트크기설정
+                                          fontWeight: FontWeight.w700, //두께설정
+                                        ),);
+                                  }
+                                },
+                              ),
+
+                              /*FutureBuilder( //userSchool 대기
                                 future: getStudentData(),
                                 builder: (context, snapshot) {
                                   if (snapshot.connectionState == ConnectionState.done) {
+                                    print("userschoolinfo: $userSchool");
 
                                     return Text(userSchool,
                                       style: TextStyle( //글자 스타일
@@ -181,6 +233,8 @@ class _MainScreenState extends State<MainScreen> {
                                   }
                                 },
                               ),
+
+                               */
 
 
                               SizedBox(
@@ -221,6 +275,39 @@ class _MainScreenState extends State<MainScreen> {
                                         ),
                                       ),
                                       SizedBox(height:15),
+
+                                      StreamBuilder<QuerySnapshot>(
+                                        stream: getStudentData(),
+                                        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                                          if (snapshot.hasError) {
+                                            return Text('Error: ${snapshot.error}');
+                                          }
+
+                                          switch (snapshot.connectionState) {
+                                            case ConnectionState.waiting:
+                                              return CircularProgressIndicator();
+                                            default:
+                                              var userName, userSchool;
+                                              for (var docSnapshot in snapshot.data!.docs) {
+                                                if (docSnapshot['uuid'] == getUserUid()) {
+                                                  userdoc = docSnapshot.id;
+                                                  userName = docSnapshot['name'];
+                                                  userSchool = docSnapshot['school'];
+                                                  break;
+                                                }
+                                              }
+                                              print("username: $userName, userSchool: $userSchool");
+                                              return Text("$userName \n $userSchool",
+                                                style: TextStyle( //글자 스타일
+                                                  color: Colors.black, //글자 색 설정
+                                                  fontSize: 20.0, //폰트크기설정
+                                                  fontWeight: FontWeight.w700, //두께설정
+                                                ),);
+                                          }
+                                        },
+                                      )
+
+                                      /*
                                       FutureBuilder( //userName 대기
                                         future: getStudentData(),
                                         builder: (context, snapshot) {
@@ -253,6 +340,7 @@ class _MainScreenState extends State<MainScreen> {
                                           }
                                         },
                                       ),
+                                      */
                                     ],
                                   ),
                                 ),
@@ -314,7 +402,8 @@ class _MainScreenState extends State<MainScreen> {
 
 
 
-                              SizedBox(height:30),
+                              SizedBox(height:50),
+
 
                               Text(' MY STATUS',
                                 style: TextStyle( //글자 스타일

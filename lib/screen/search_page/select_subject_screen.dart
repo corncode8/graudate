@@ -147,15 +147,7 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
                   return Container(
                     child: ListTile(
                       onTap: () {
-                        // Navigator.push(
-                        //   context,
-                        //   MaterialPageRoute(
-                        //     builder: (context) => SelectTermScreen(
-                        //       displayList[index],
-                        //       lastRoute,
-                        //     ),
-                        //   ),
-                        // );
+                        toggleFavorite(displayList[index]);
                       },
                       //trailing: const Icon(Icons.hub_outlined),
                       title: Text(

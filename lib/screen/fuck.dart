@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 
 final db = FirebaseFirestore.instance;
 
@@ -28,15 +29,18 @@ getdoc() async {
 
 List<String> currentSub = [];
 List<String> currentCredit = [];
+List<String> currentGrades = [];
 List<List<String>> subjectGrades = [[]];
+List<String> currenttotalGrades= [];
+List<String> currenttotalscore=[];
 
 Future<List<List<String>>> printUserFavorite(String targetKey) async {
   try {
-    String? userId = 'F28OjwaI4eOgU4J8vuUNofcrYsH3';
+    //String? userId = 'F28OjwaI4eOgU4J8vuUNofcrYsH3';
 
     DocumentSnapshot userSnapshot =
-    await FirebaseFirestore.instance.collection('학생').doc(userId).get();
-
+    await FirebaseFirestore.instance.collection('학생').doc(getUserUid()).get();
+    //print(userSnapshot.data());
     if (userSnapshot.exists) {
       Map<String, dynamic> userData =
       userSnapshot.data() as Map<String, dynamic>;
@@ -52,17 +56,32 @@ Future<List<List<String>>> printUserFavorite(String targetKey) async {
 
           currentSub = [];
           currentCredit = [];
+          currentGrades = [];
+          currenttotalGrades = extractScores(userData);
+          currenttotalscore = extractgrade(userData);
+          //print(" userData: ${userData['favorite']['1-1']}");
 
           innerFavoriteData.forEach((key, value) {
             if (value is Map) {
               currentSub.add(value['교과목명']);
               currentCredit.add(value['학점']);
+              currentGrades.add(value['점수']);
             }
           });
 
-          return [currentSub, currentCredit];
+          print("cS: $currentSub, cC: $currentCredit, cG: $currentGrades");
+
+
+          return [currentSub, currentCredit, currentGrades, currenttotalGrades, currenttotalscore];
         } else {
           print('Target key data not found.');
+          final data=userSnapshot.get('favorite');
+
+          data[targetKey]={};
+          await db.collection("학생").doc(userSnapshot.id).update({
+            "favorite": data,
+          });
+
         }
       } else {
         print('User favorite data not found.');
@@ -75,4 +94,46 @@ Future<List<List<String>>> printUserFavorite(String targetKey) async {
   }
 
   return [[], []]; // 기본적으로 빈 리스트를 반환
+}
+//////////////////////////////
+List<String> extractScores(Map<String, dynamic> data) {
+  List<String> scores = [];
+
+  if (data.containsKey('favorite')) {
+    var values = data['favorite'].values;
+    if (values != null) {
+      values.forEach((term) {
+        if (term is Map) {
+          term.values.forEach((course) {
+            if (course is Map && course.containsKey('점수')) {
+              scores.add(course['점수']);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  return scores;
+}
+
+List<String> extractgrade(Map<String, dynamic> data) {
+  List<String> scores = [];
+
+  if (data.containsKey('favorite')) {
+    var values = data['favorite'].values;
+    if (values != null) {
+      values.forEach((term) {
+        if (term is Map) {
+          term.values.forEach((course) {
+            if (course is Map && course.containsKey('학점')) {
+              scores.add(course['학점']);
+            }
+          });
+        }
+      });
+    }
+  }
+
+  return scores;
 }

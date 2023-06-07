@@ -11,12 +11,14 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
+  final user = FirebaseAuth.instance.currentUser;
   final db = FirebaseFirestore.instance;
   final _emailTextController = TextEditingController();
   final _schoolTextController = TextEditingController();
   final _departmentTextController = TextEditingController();
   final _curYearTextController = TextEditingController();
   final _nameTextController = TextEditingController();
+
 
   getUserUid() {
     try {
@@ -29,6 +31,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         return e.code.toString();
       }
     }
+  }
+
+  Stream<QuerySnapshot> getStudentData() {
+    return FirebaseFirestore.instance.collection("학생").snapshots();
   }
 
   UpdateUserInfo() async {
@@ -53,6 +59,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
@@ -61,6 +68,8 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(
                 height: 100,
               ),
+
+
               Row(
                 children: const [
                   Text(
@@ -71,29 +80,33 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ),
                   ),
                 ],
+
               ),
+
               const SizedBox(
-                height: 50,
+                height: 70,
               ),
+
               Center(
                 child: Column(
                   children: [
-                    InputInfoTextField(_emailTextController, "Email",
+
+                    InputInfoTextField(true, _emailTextController, user!.email,
                         Icons.email, TextInputType.emailAddress),
                     const SizedBox(
                       height: 20,
                     ),
-                    InputInfoTextField(_nameTextController, "Name",
+                    InputInfoTextField(false, _nameTextController, "Name",
                         Icons.account_circle, TextInputType.name),
                     const SizedBox(
                       height: 20,
                     ),
-                    InputInfoTextField(_schoolTextController, "School",
+                    InputInfoTextField(false, _schoolTextController, "School",
                         Icons.school, TextInputType.name),
                     const SizedBox(
                       height: 20,
                     ),
-                    InputInfoTextField(_departmentTextController, "department",
+                    InputInfoTextField(false, _departmentTextController, "department",
                         Icons.book, TextInputType.name)
                   ],
                 ),
@@ -101,14 +114,35 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(
                 height: 20,
               ),
-              InputInfoTextField(_curYearTextController, "CurriculumYear",
+              InputInfoTextField(false, _curYearTextController, "CurriculumYear",
                   Icons.featured_play_list, TextInputType.name),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 onPressed: () {
                   UpdateUserInfo();
                 },
-                child: const Text("ClickThisButton"),
-              )
+                child: const Text("프로필 수정"),
+              ),
+
+              const SizedBox(
+                height: 20,
+              ),
+
+              IconButton(
+                  onPressed: () {
+                    setState(() {
+                      FirebaseAuth.instance.signOut();
+                      print("로그아웃후 $user");
+                    });
+                    //Navigator.pushReplacementNamed(context, '/loginPage');
+                  },
+
+                  icon: const Icon(
+                    Icons.logout_outlined,
+                  )),
+
             ],
           ),
         ),

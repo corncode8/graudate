@@ -1,18 +1,24 @@
+import 'dart:async';
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:multi_select_flutter/multi_select_flutter.dart';
 import 'package:grad_gg/screen/profile_screen.dart';
 import 'fuck.dart';
+import 'grades_update.dart';
 
 
 class Season_Category extends StatefulWidget {
+
   const Season_Category({Key? key}) : super(key: key);
 
   @override
   State<Season_Category> createState() => _Season_CategoryState();
 }
-
+final gradesManager = GradesManager();
 final ValueNotifier<String> selectedSeasonNotifier = ValueNotifier<String>("");
 
 class _Season_CategoryState extends State<Season_Category> {
@@ -32,6 +38,7 @@ class _Season_CategoryState extends State<Season_Category> {
           itemBuilder: (context, index) => buildCategory(index, context)),
     );
   }
+
 
   Padding buildCategory(int index, BuildContext context) {
     return Padding(
@@ -86,22 +93,165 @@ class _MyStatusPageState extends State<MyStatusPage> {
 
   List<String> currentSub = [];
   List<String> currentCredit = [];
+  List<String> currentGrade = [];
   List<List<String>> subjectGrades = [[]];
+  List<String> currentTotalGrade=[];
+  List<String> currentTotalScore=[];
+  double score=0.0;
 
   void someFunction(String str) async {
     List<List<String>> result = await printUserFavorite(str);
 
-    setState(() {
-      currentSub = result[0];
-      currentCredit = result[1];
-    });
+    if (result != null && result.length >= 5) {
+      setState(() {
+        currentSub = result[0];
+        currentCredit = result[1];
+        currentGrade = result[2];
+        currentTotalGrade = result[3];
+        currentTotalScore = result[4];
+        print(currentGrade);
+
+        //print("current: $currentGrade result: ${result[2]}");
+      });
+    }
   }
 
-  List<String> currentGrade = [];
+
+
+
+  double cal() {
+    double total = 0.0;
+    int count = 0;
+    int fcount = 0;
+
+    for (String grade in currentGrade) {
+      switch (grade) {
+        case 'A+':
+          total += 4.5;
+          break;
+        case 'A0':
+          total += 4.0;
+          break;
+        case 'B+':
+          total += 3.5;
+          break;
+        case 'B0':
+          total += 3.0;
+          break;
+        case 'C+':
+          total += 2.5;
+          break;
+        case 'C0':
+          total += 2.0;
+          break;
+        case 'D+':
+          total += 1.5;
+          break;
+        case 'D0':
+          total += 1.0;
+          break;
+        case 'F':
+          fcount += 1;
+          break;
+        default:
+          fcount+=1;
+          break;
+      }
+      count++;
+    }
+
+    double average = total / (count-fcount);
+    if((count-fcount)==0){
+      return 0.0;
+    }
+    else {
+      return double.parse(average.toStringAsFixed(1));
+    }
+  }
+double calc(){
+    double total = 0.0;
+    int fcount=0;
+    int count=0;
+    for (String grade in currentTotalGrade) {
+
+      switch (grade) {
+        case 'A+':
+          total += 4.5;
+          break;
+        case 'A0':
+          total += 4.0;
+          break;
+        case 'B+':
+          total += 3.5;
+          break;
+        case 'B0':
+          total += 3.0;
+          break;
+        case 'C+':
+          total += 2.5;
+          break;
+        case 'C0':
+          total += 2.0;
+          break;
+        case 'D+':
+          total += 1.5;
+          break;
+        case 'D0':
+          total += 1.0;
+          break;
+        case 'F':
+          fcount += 1;
+          break;
+        default:
+          fcount+=1;
+          break;
+      }
+      count++;
+    }
+  //currentTotalGrade
+    double average = total / (count-fcount);
+    if((count-fcount)==0){
+      return 0.0;
+    }
+    else {
+      return double.parse(average.toStringAsFixed(1));
+    }
+}
+  int? cald(){
+    int total = 0;
+
+    for (String grade in currentTotalScore) {
+      int? gradeAsInt = int.tryParse(grade);
+      if (gradeAsInt == null) {
+        continue;
+      }
+      else {
+        total += int.parse(grade);
+      }
+    }
+    return total;
+  }
+
+  int cale(){
+    int total = 0;
+    for (String grade in currentCredit) {
+      int? gradeAsInt = int.tryParse(grade);
+      if (gradeAsInt == null) {
+        continue;
+      }
+      else {
+        total += int.parse(grade);
+      }
+    }
+    return total;
+  }
+
+
 
   @override
   void initState() {
     super.initState();
+    selectedSeasonNotifier.value = '1학년 1학기';
   }
 
 
@@ -155,7 +305,7 @@ class _MyStatusPageState extends State<MyStatusPage> {
               ),
             ),
             Text(
-              '       65 / 130',
+              '       ${cald()} / 130',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 35,
@@ -163,7 +313,7 @@ class _MyStatusPageState extends State<MyStatusPage> {
                 color: Colors.black,
               ),
             ),
-            Text('\n     ●  평점',
+            Text('\n     ● 전체평점',
               style: TextStyle(
                 fontSize: 15,
                 fontWeight: FontWeight.bold,
@@ -171,7 +321,7 @@ class _MyStatusPageState extends State<MyStatusPage> {
               ),
             ),
             Text(
-              '       4.2 / 4.5',
+              '       ${calc()} / 4.5',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 35,
@@ -191,36 +341,39 @@ class _MyStatusPageState extends State<MyStatusPage> {
               builder: (BuildContext context, String value, Widget? child) {
 
                 String textValue = "";
-                List<String> usergrade = ['a', 'b'];
+                //List<String> usergrade = ['a', 'b'];
 
 
                 Color color = Colors.white;
 
                 if (value == '1학년 1학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 17           평점 : 3.5/4.5';
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
                   someFunction('1-1');
-                  currentGrade = List.from(usergrade);
+                  currentGrade = List.from(currentGrades);
+
 
                 } else if (value == '1학년 2학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 18           평점 : 3.2/4.5';
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
                   someFunction('1-2');
+                  if(currentSub.isEmpty){
+                  }
+
 
 
                 } else if (value == '2학년 1학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 14           평점 : 4.3/4.5';
-
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
                   someFunction('2-1');
 
 
                 } else if (value == '2학년 2학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 18           평점 : 3.65/4.5';
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
 
                   someFunction('2-2');
@@ -229,7 +382,7 @@ class _MyStatusPageState extends State<MyStatusPage> {
 
                 } else if (value == '3학년 1학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 17           평점 : 3.7/4.5';
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
 
                   someFunction('3-1');
@@ -237,7 +390,7 @@ class _MyStatusPageState extends State<MyStatusPage> {
 
                 } else if (value == '3학년 2학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 14           평점 : 3.1/4.5';
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
 
                   someFunction('3-2');
@@ -246,7 +399,7 @@ class _MyStatusPageState extends State<MyStatusPage> {
 
                 } else if (value == '4학년 1학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 10           평점 : 3.75/4.5';
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
 
                   someFunction('4-1');
@@ -255,7 +408,7 @@ class _MyStatusPageState extends State<MyStatusPage> {
 
                 } else if (value == '4학년 2학기') {
                   color = Colors.white;
-                  textValue = '이수학점 : 11           평점 : 3.4/4.5';
+                  textValue = '이수학점 : ${cale()}           평점 : ${cal()}/4.5';
 
 
                   someFunction('4-2');
@@ -277,8 +430,9 @@ class _MyStatusPageState extends State<MyStatusPage> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
+                        Expanded(
+                          child: SingleChildScrollView(
+                          //scrollDirection: Axis.horizontal,
                           child: DataTable(
                             columns: <DataColumn>[
                               DataColumn(
@@ -319,11 +473,87 @@ class _MyStatusPageState extends State<MyStatusPage> {
                                     cells: <DataCell>[
                                       DataCell(Text(currentSub[index])),
                                       DataCell(Text(currentCredit[index])),
-                                      DataCell(Text(currentGrade[index])),
+                                      DataCell(
+                                        Text(currentGrade[index]),
+                                        onTap: () async {
+                                          String subject = currentSub[index];
+                                          String? grades = await showDialog<String>(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                String? tempGrade;
+                                                return StatefulBuilder(
+                                                    builder: (BuildContext context, StateSetter setState) {
+                                                      return AlertDialog(
+                                                        title: Text('성적을 입력하세요'),
+                                                        content: DropdownButton<String>(
+                                                          items: <String>[
+                                                            'A+',
+                                                            'A0',
+                                                            'B+',
+                                                            'B0',
+                                                            'C+',
+                                                            'C0',
+                                                            'D+',
+                                                            'D0',
+                                                            'F'
+                                                          ].map((String value) {
+                                                            return DropdownMenuItem<String>(
+                                                              value: value,
+                                                              child: Text(value),
+                                                            );
+                                                          }).toList(),
+                                                          onChanged: (value) {
+                                                            setState(() {
+                                                              tempGrade = value;
+                                                              print(tempGrade);
+                                                            });
+                                                          },
+                                                          hint: Text("선택하세요"),
+                                                          value: tempGrade,
+                                                        ),
+                                                        actions: [
+                                                          TextButton(
+                                                            child: Text('입력'),
+                                                            onPressed: () {
+                                                              Navigator.of(context).pop(tempGrade);
+                                                            },
+                                                          ),
+                                                        ],
+                                                      );
+                                                    }
+                                                );
+                                              }
+                                          );
+                                          if (grades != null && grades.isNotEmpty) {
+                                              List<String> parts = value.split(' ');
+
+                                              // 첫번째 부분에서 '학년' 제거, 두번째 부분에서 '학기' 제거
+                                              String year = parts[0].replaceAll('학년', '');
+                                              String semester = parts[1].replaceAll('학기', '');
+
+                                              // '학기-학기' 형태의 문자열로 만들어 반환
+                                              value = '$year-$semester';
+                                              print(value);
+                                            gradesManager.grade(value, subject, grades); // Use gradesManager to update the grades
+                                            cal();
+                                          }
+                                          // Navigator.push(
+                                          //   context,
+                                          //   MaterialPageRoute(
+                                          //     builder: (context) => SelectTermScreen(
+                                          //       displayList[index],
+                                          //       lastRoute,
+                                          //     ),
+                                          //   ),
+                                          // );
+                                        },
+                                      ),
                                     ],
                                   ),
-                            ).toList(),
+                            ).toList(
+                            ),
                           ),
+                        ),
                         ),
                       ],
                     ),
@@ -335,3 +565,5 @@ class _MyStatusPageState extends State<MyStatusPage> {
       ),
     );
 }}
+
+

@@ -5,9 +5,10 @@ class InputInfoTextField extends StatelessWidget {
   final _hintText;
   final _icon;
   final _keyboardType;
+  final _readOnly;
 
   const InputInfoTextField(
-      this._textController, this._hintText, this._icon, this._keyboardType,
+      this._readOnly, this._textController, this._hintText, this._icon, this._keyboardType,
       {super.key});
 
   @override
@@ -16,6 +17,7 @@ class InputInfoTextField extends StatelessWidget {
       decoration: BoxDecoration(
           border: Border.all(), borderRadius: BorderRadius.circular(20)),
       child: TextField(
+        readOnly: _readOnly,
         keyboardType: _keyboardType,
         controller: _textController,
         decoration: InputDecoration(
