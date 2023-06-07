@@ -73,13 +73,7 @@ class _SelectDepartmentScreenState extends State<SelectDepartmentScreen> {
                     title: Text(
                       displayList[index],
                     ),
-                    leading: IconButton(
-                      icon: const Icon(
-                        Icons.favorite_border_outlined,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {},
-                    ),
+                    leading: const Icon(Icons.circle),
                     subtitle: const Text("subtitle"),
                   ),
                 );

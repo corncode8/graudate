@@ -77,9 +77,7 @@ class _SelectTermScreenState extends State<SelectTermScreen> {
                     title: Text(
                       displayList[index],
                     ),
-                    leading: const FittedBox(
-                      child: LikeButton(),
-                    ),
+                    leading: const Icon(Icons.circle),
                   ),
                 );
               },

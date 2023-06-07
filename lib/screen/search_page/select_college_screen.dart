@@ -16,8 +16,8 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
   static List<String> dbCollegeList = [];
   late List<String> displayList = [];
   late String lastRoute;
-  bool isLiked = false;
-  List favorite = [];
+  // bool isLiked = false;
+  // List favorite = [];
 
   collectCollegeList() async {
     dbCollegeList = [];
@@ -45,23 +45,23 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
     }
   }
 
-  toggleFavorite(String value) async {
-    setState(() {
-      if (favorite.contains(value)) {
-        favorite.remove(value);
-      } else {
-        favorite.add(value);
-      }
-    });
-    late String docid;
-    String userUid = getUserUid();
-    // final query =
-    //     await db.collection("학생").where("uuid", isEqualTo: userUid).get();
-    // docid = query.docs.first.id;
-    await db.collection("학생").doc(userUid).update({
-      "favorite": favorite.toSet().toList(),
-    });
-  }
+  // toggleFavorite(String value) async {
+  //   setState(() {
+  //     if (favorite.contains(value)) {
+  //       favorite.remove(value);
+  //     } else {
+  //       favorite.add(value);
+  //     }
+  //   });
+  //   late String docid;
+  //   String userUid = getUserUid();
+  //   // final query =
+  //   //     await db.collection("학생").where("uuid", isEqualTo: userUid).get();
+  //   // docid = query.docs.first.id;
+  //   await db.collection("학생").doc(userUid).update({
+  //     "favorite": favorite.toSet().toList(),
+  //   });
+  // }
 
   // initFavorite() async {
   //   late String docid;
@@ -112,7 +112,6 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
             )
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                final isLiked = favorite.contains(displayList[index]);
                 return Container(
                   // color: Colors.amber,
                   child: ListTile(
@@ -131,20 +130,7 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
                     title: Text(
                       displayList[index],
                     ),
-                    leading: IconButton(
-                      icon: isLiked
-                          ? const Icon(
-                              Icons.favorite_outlined,
-                              color: Colors.red,
-                            )
-                          : const Icon(
-                              Icons.favorite_border_outlined,
-                              color: Colors.red,
-                            ),
-                      onPressed: () {
-                        toggleFavorite(displayList[index]);
-                      },
-                    ),
+                    leading: const Icon(Icons.circle),
                     subtitle: const Text("subtitle"),
                   ),
                 );

@@ -66,7 +66,7 @@ class _SelectYearScreenState extends State<SelectYearScreen> {
                         ),
                       );
                     },
-                    leading: const FittedBox(child: LikeButton()),
+                    leading: const Icon(Icons.circle),
                     //trailing: const Icon(Icons.hub_outlined),
                     title: Text(
                       displayList[index],
