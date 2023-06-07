@@ -121,15 +121,15 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TestPage"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                print("눌렀음");
-                dataTest();
-              },
-              icon: const Icon(Icons.tab))
-        ],
+        title: const Text("과목 선택"),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         print("눌렀음");
+        //         dataTest();
+        //       },
+        //       icon: const Icon(Icons.tab))
+        // ],
       ),
       body: displayList.isEmpty
           ? const Center(

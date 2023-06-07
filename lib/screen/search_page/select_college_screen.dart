@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grad_gg/screen/search_page/Widget/loading_indicator.dart';
 import 'package:grad_gg/screen/search_page/select_department_screen.dart';
 
 class SelectCollegeScreen extends StatefulWidget {
@@ -97,19 +98,17 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TestPage"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                collectCollegeList();
-              },
-              icon: const Icon(Icons.tab))
-        ],
+        title: const Text("단과대학 선택"),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         collectCollegeList();
+        //       },
+        //       icon: const Icon(Icons.tab))
+        // ],
       ),
       body: displayList.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const LoadingIndicator()
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return Container(
@@ -130,8 +129,10 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
                     title: Text(
                       displayList[index],
                     ),
-                    leading: const Icon(Icons.circle),
-                    subtitle: const Text("subtitle"),
+                    leading: const Icon(
+                      Icons.circle,
+                      size: 15,
+                    ),
                   ),
                 );
               },

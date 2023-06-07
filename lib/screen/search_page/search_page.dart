@@ -60,17 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(
-          onPressed: () {
-            // showSearch(
-            //   context: context,
-            //   delegate: CustomSearchDelegate(),
-            // );
-          },
-          icon: const Icon(Icons.search),
-        ),
-      ]),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         child: Column(
@@ -79,8 +69,8 @@ class _SearchScreenState extends State<SearchScreen> {
               width: MediaQuery.of(context).size.width * 0.9,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
+                children: const [
+                  Text(
                     'Grad.GG',
                     style: TextStyle(
                       //글자 스타일
@@ -90,16 +80,16 @@ class _SearchScreenState extends State<SearchScreen> {
                       fontWeight: FontWeight.w700, //두께설정
                     ),
                   ),
-                  SizedBox(
-                    width: 90,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/myspacePage');
-                      },
-                      child: const Text("Myspace"),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   width: 90,
+                  //   height: 50,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.pushReplacementNamed(context, '/myspacePage');
+                  //     },
+                  //     child: const Text("Myspace"),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
