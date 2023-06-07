@@ -148,10 +148,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Text(
-                        '졸업.gg',
+                        '졸업.GG',
                         style: TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 55,
+                          fontWeight: FontWeight.w700,
                         ),
                       ),
                       const SizedBox(

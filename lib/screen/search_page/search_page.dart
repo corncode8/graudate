@@ -60,17 +60,7 @@ class _SearchScreenState extends State<SearchScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(actions: [
-        IconButton(
-          onPressed: () {
-            // showSearch(
-            //   context: context,
-            //   delegate: CustomSearchDelegate(),
-            // );
-          },
-          icon: const Icon(Icons.search),
-        ),
-      ]),
+      appBar: AppBar(),
       body: Padding(
         padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 20),
         child: Column(
@@ -78,28 +68,27 @@ class _SearchScreenState extends State<SearchScreen> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.9,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    'Grad.GG',
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: const [
+                  Text(
+                    '졸업.GG',
                     style: TextStyle(
                       //글자 스타일
                       color: Colors.black, //글자 색 설정
-                      letterSpacing: 2.0, //글자 자간설정
-                      fontSize: 70.0, //폰트크기설정
+                      fontSize: 55.0, //폰트크기설정
                       fontWeight: FontWeight.w700, //두께설정
                     ),
                   ),
-                  SizedBox(
-                    width: 90,
-                    height: 50,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Navigator.pushReplacementNamed(context, '/myspacePage');
-                      },
-                      child: const Text("Myspace"),
-                    ),
-                  ),
+                  // SizedBox(
+                  //   width: 90,
+                  //   height: 50,
+                  //   child: ElevatedButton(
+                  //     onPressed: () {
+                  //       Navigator.pushReplacementNamed(context, '/myspacePage');
+                  //     },
+                  //     child: const Text("Myspace"),
+                  //   ),
+                  // ),
                 ],
               ),
             ),
@@ -114,7 +103,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   borderRadius: BorderRadius.circular(8.0),
                   borderSide: const BorderSide(color: Colors.black),
                 ),
-                hintText: 'Search',
+                hintText: '검색!',
                 labelStyle: const TextStyle(color: Colors.black),
                 prefixIcon: const Icon(Icons.search),
                 prefixIconColor: Colors.black,

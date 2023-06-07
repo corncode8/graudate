@@ -75,10 +75,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const Text(
-                      'Grad.gg',
+                      '졸업.GG',
                       style: TextStyle(
-                        fontSize: 50,
-                        fontWeight: FontWeight.w600,
+                        fontSize: 55,
+                        fontWeight: FontWeight.w700,
                       ),
                     ),
                     const SizedBox(
@@ -188,7 +188,7 @@ class _LoginScreenState extends State<LoginScreen> {
             Container(
               width: 280,
               decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 82, 77, 77),
+                  color: const Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.circular(20)),
               child: TextButton(
                 onPressed: () {
@@ -205,10 +205,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   // }
                 },
                 child: const Text(
-                  'Login',
+                  'GO FOR IT!',
                   style: TextStyle(
+                    backgroundColor: Colors.white,
                     color: Colors.black,
-                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontSize: 50,
                   ),
                 ),
               ),
@@ -216,20 +218,7 @@ class _LoginScreenState extends State<LoginScreen> {
             const SizedBox(
               height: 40,
             ),
-            RichText(
-              text: const TextSpan(
-                children: [
-                  TextSpan(
-                    text: 'GO FOR IT! ➡️',
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 50,
-                      fontWeight: FontWeight.w800,
-                    ),
-                  ),
-                ],
-              ),
-            )
+
           ],
         ),
       ),

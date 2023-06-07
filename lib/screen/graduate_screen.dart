@@ -127,7 +127,7 @@ class _AppState extends State<GraduatingScreen> {
                 const Text('졸업.GG',
                   style: TextStyle(
                     fontSize: 55,
-                    fontWeight: FontWeight.w600,
+                    fontWeight: FontWeight.w700,
                     color: Colors.black,
                   ),
                 ),

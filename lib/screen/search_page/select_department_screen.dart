@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:grad_gg/screen/search_page/Widget/loading_indicator.dart';
 import 'package:grad_gg/screen/search_page/select_year_screen.dart';
 
 class SelectDepartmentScreen extends StatefulWidget {
@@ -41,19 +42,17 @@ class _SelectDepartmentScreenState extends State<SelectDepartmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TestPage"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                collectDepartmentList();
-              },
-              icon: const Icon(Icons.tab))
-        ],
+        title: const Text("학과 선택"),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         collectDepartmentList();
+        //       },
+        //       icon: const Icon(Icons.tab))
+        // ],
       ),
       body: displayList.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const LoadingIndicator()
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
                 return Container(
@@ -73,12 +72,9 @@ class _SelectDepartmentScreenState extends State<SelectDepartmentScreen> {
                     title: Text(
                       displayList[index],
                     ),
-                    leading: IconButton(
-                      icon: const Icon(
-                        Icons.favorite_border_outlined,
-                        color: Colors.red,
-                      ),
-                      onPressed: () {},
+                    leading: const Icon(
+                      Icons.circle,
+                      size: 15,
                     ),
                     subtitle: const Text("subtitle"),
                   ),

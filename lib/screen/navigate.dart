@@ -54,9 +54,10 @@ class _MyStatusPageState extends State<NavPage> { //네비바 화면경로 연�
       resizeToAvoidBottomInset: false,
       body: pages[provider.selectedIndex],
       bottomNavigationBar: NavigationBar(
+        backgroundColor: Colors.white,
         destinations: const [
           NavigationDestination(icon: Icon(Icons.person), label: "프로필 수정",),
-          NavigationDestination(icon: Icon(Icons.calculate), label: "학점계산기"),
+          NavigationDestination(icon: Icon(Icons.calculate), label: "MY STATUS"),
           NavigationDestination(icon: Icon(Icons.home), label: '홈'),
           NavigationDestination(icon: Icon(Icons.search), label: '검색'),
           NavigationDestination(icon: Icon(Icons.done), label: '졸업요소'),

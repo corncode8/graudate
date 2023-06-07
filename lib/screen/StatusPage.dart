@@ -42,7 +42,7 @@ class _Season_CategoryState extends State<Season_Category> {
 
   Padding buildCategory(int index, BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 50),
+      padding: const EdgeInsets.symmetric(horizontal: 30),
       child: GestureDetector(
         onTap: (){
           setState(() {
@@ -258,12 +258,12 @@ double calc(){
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10.0),
+      padding: EdgeInsets.only(left: 22.0, top : 30.0),
       child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 0.0,
+              height: 54.0,
             ),
             TextButton(
               onPressed: () {
@@ -273,16 +273,15 @@ double calc(){
                 text: TextSpan(
                   children: [
                     TextSpan(
-                      text: 'Grad.gg\n',
+                      text: '졸업.GG\n',
                       style: TextStyle(
-                          letterSpacing: 2.0, //글자 자간설정
-                          fontSize: 60.0, //폰트크기설정
-                          fontWeight: FontWeight.w600, //두께설정
+                          fontSize: 55.0, //폰트크기설정
+                          fontWeight: FontWeight.w700, //두께설정
                           color: Colors.black),
                     ),
                     TextSpan(
                       text: '경상국립대학교',
-                      style: TextStyle(fontSize: 20.0, color: Colors.black),
+                      style: TextStyle(fontSize: 25.0, color: Colors.black, fontWeight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -292,14 +291,14 @@ double calc(){
               '\n\nMY STATUS',
               textAlign: TextAlign.left,
               style: TextStyle(
-                fontSize: 25.0,
-                fontWeight: FontWeight.bold,
+                fontSize: 32.0,
+                fontWeight: FontWeight.w700,
                 color: Colors.black,
               ),
             ),
             Text('\n     ●  이수학점',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -315,7 +314,7 @@ double calc(){
             ),
             Text('\n     ● 전체평점',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
                 color: Colors.black,
               ),
@@ -331,7 +330,7 @@ double calc(){
             ),
 
             SizedBox(
-              height: 50,
+              height: 20
             ),
 
             Season_Category(),
@@ -417,7 +416,7 @@ double calc(){
                 }
 
                 return Container(
-                  height: 300,
+                  height: 234,
                   color: color,
                   child: Center(
                     child: Column(

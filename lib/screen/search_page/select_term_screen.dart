@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grad_gg/screen/search_page/select_subject_screen.dart';
-import 'package:like_button/like_button.dart';
 
 class SelectTermScreen extends StatefulWidget {
   final String subjectid;
@@ -45,14 +44,14 @@ class _SelectTermScreenState extends State<SelectTermScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TestPage"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                collectTermList();
-              },
-              icon: const Icon(Icons.tab))
-        ],
+        title: const Text("학기 선택"),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         collectTermList();
+        //       },
+        //       icon: const Icon(Icons.tab))
+        // ],
       ),
       body: displayList.isEmpty
           ? const Center(
@@ -77,8 +76,9 @@ class _SelectTermScreenState extends State<SelectTermScreen> {
                     title: Text(
                       displayList[index],
                     ),
-                    leading: const FittedBox(
-                      child: LikeButton(),
+                    leading: const Icon(
+                      Icons.circle,
+                      size: 15,
                     ),
                   ),
                 );

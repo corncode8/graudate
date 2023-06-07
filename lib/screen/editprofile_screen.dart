@@ -62,21 +62,21 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       resizeToAvoidBottomInset: false,
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 12),
           child: Column(
             children: [
               const SizedBox(
-                height: 100,
+                height: 80,
               ),
 
 
               Row(
                 children: const [
                   Text(
-                    'Grad.gg',
+                    '졸업.GG',
                     style: TextStyle(
-                      fontSize: 50,
-                      fontWeight: FontWeight.w600,
+                      fontSize: 55,
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
                 ],
@@ -96,17 +96,17 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     const SizedBox(
                       height: 20,
                     ),
-                    InputInfoTextField(false, _nameTextController, "Name",
+                    InputInfoTextField(false, _nameTextController, "이름",
                         Icons.account_circle, TextInputType.name),
                     const SizedBox(
                       height: 20,
                     ),
-                    InputInfoTextField(false, _schoolTextController, "School",
+                    InputInfoTextField(false, _schoolTextController, "소속학교",
                         Icons.school, TextInputType.name),
                     const SizedBox(
                       height: 20,
                     ),
-                    InputInfoTextField(false, _departmentTextController, "department",
+                    InputInfoTextField(false, _departmentTextController, "소속학과",
                         Icons.book, TextInputType.name)
                   ],
                 ),
@@ -114,7 +114,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               const SizedBox(
                 height: 20,
               ),
-              InputInfoTextField(false, _curYearTextController, "CurriculumYear",
+              InputInfoTextField(false, _curYearTextController, "이수학년",
                   Icons.featured_play_list, TextInputType.name),
               const SizedBox(
                 height: 20,
@@ -124,6 +124,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                   UpdateUserInfo();
                 },
                 child: const Text("프로필 수정"),
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.white,
+                  onPrimary: Colors.black,
+                  shadowColor: Colors.white38,
+                  elevation: 0,
+                  textStyle: TextStyle(
+                    fontWeight: FontWeight.w300,
+                  )
+
+                ),
               ),
 
               const SizedBox(

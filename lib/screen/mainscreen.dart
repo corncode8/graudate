@@ -160,26 +160,26 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
+      body:
+      SingleChildScrollView(
         child: Column(
 
             children: <Widget>[
               Container( //stack만 쓰면 높이 제한이 사라져 오류 발생 컨테이너로 묶어서 높이 200으로 지정
-                height:800,
+                height:1000,
                 child: Stack(
                     children: [
                       Positioned(
-                          top: 70,
-                          left: 20,
+                          top: 92,
+                          left: 30,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start, //왼쪽정렬
                             children: [
-                              Text('졸업.gg',
+                              Text('졸업.GG',
                                 style: TextStyle( //글자 스타일
                                   color: Colors.black, //글자 색 설정
-                                  letterSpacing: 2.0, //글자 자간설정
-                                  fontSize: 60.0, //폰트크기설정
-                                  fontWeight: FontWeight.w600, //두께설정
+                                  fontSize: 55.0, //폰트크기설정
+                                  fontWeight: FontWeight.w700, //두께설정
                                 ),
                               ),
                               StreamBuilder<QuerySnapshot>(
@@ -207,9 +207,8 @@ class _MainScreenState extends State<MainScreen> {
                                       return Text("$userSchool",
                                         style: TextStyle( //글자 스타일
                                           color: Colors.black, //글자 색 설정
-                                          letterSpacing: 2.0, //글자 자간설정
-                                          fontSize: 30.0, //폰트크기설정
-                                          fontWeight: FontWeight.w700, //두께설정
+                                          fontSize: 25.0, //폰트크기설정
+                                          fontWeight: FontWeight.w600, //두께설정
                                         ),);
                                   }
                                 },
@@ -238,13 +237,13 @@ class _MainScreenState extends State<MainScreen> {
 
 
                               SizedBox(
-                                height: 25.0,
+                                height: 55.0,
                               ),
                               Text(' MY SPACE',
                                 style: TextStyle( //글자 스타일
                                   color: Colors.black, //글자 색 설정
-                                  fontSize: 30.0, //폰트크기설정
-                                  fontWeight: FontWeight.w400, //두께설정
+                                  fontSize: 32.0, //폰트크기설정
+                                  fontWeight: FontWeight.w700, //두께설정
                                 ),
                               ),
                               SizedBox(
@@ -253,8 +252,8 @@ class _MainScreenState extends State<MainScreen> {
 
                               Row(
                               children: [
-                              Container( //USER_NAME DEPARTMENTS
-                                width: 170,
+                              Container( //USER_NAME, DEPARTMENTS
+                                width: 150,
                                 height: 180,
                                 child: ElevatedButton(
                                   onPressed: () {
@@ -297,11 +296,12 @@ class _MainScreenState extends State<MainScreen> {
                                                 }
                                               }
                                               print("username: $userName, userSchool: $userSchool");
-                                              return Text("$userName \n $userSchool",
-                                                style: TextStyle( //글자 스타일
+                                              return Text(" $userName \n $userSchool",
+                                                textAlign:TextAlign.center,
+                                                style: TextStyle( //글자 스타일s
                                                   color: Colors.black, //글자 색 설정
                                                   fontSize: 20.0, //폰트크기설정
-                                                  fontWeight: FontWeight.w700, //두께설정
+                                                  fontWeight: FontWeight.w500, //두께설정
                                                 ),);
                                           }
                                         },
@@ -350,8 +350,8 @@ class _MainScreenState extends State<MainScreen> {
                                 SizedBox(width: 20), // 가로 방향으로 간격 추가
 
                                 Container(
-                                  width: 180,
-                                  height: 170,
+                                  width: 170,
+                                  height: 200,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start, // 오른쪽 열을 왼쪽 정렬로 만듭니다.
                                   children: [
@@ -360,14 +360,14 @@ class _MainScreenState extends State<MainScreen> {
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 30.0,
-                                        fontWeight: FontWeight.w900,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),Text(
                                       DateFormat('MM월', 'ko_KR').format(DateTime.now()), // 현재 시간 표시
                                       style: TextStyle(
                                         color: Colors.black,
                                         fontSize: 30.0,
-                                        fontWeight: FontWeight.w900,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
 
@@ -408,18 +408,19 @@ class _MainScreenState extends State<MainScreen> {
                               Text(' MY STATUS',
                                 style: TextStyle( //글자 스타일
                                   color: Colors.black, //글자 색 설정
-                                  fontSize: 30.0, //폰트크기설정
-                                  fontWeight: FontWeight.w400, //두께설정
+                                  fontSize: 32.0, //폰트크기설정
+                                  fontWeight: FontWeight.w700, //두께설정
                                 ),
                               ),
 
                               SizedBox(height:5),
 
                               Container(
-                                width: 375,
+                                width: 345,
                                 height: 170,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(15
+                                  ),
                                   color: Colors.grey[200],
                                 ),
                                 child: ElevatedButton(
@@ -442,14 +443,14 @@ class _MainScreenState extends State<MainScreen> {
                                               Text("전체평점",
                                                 style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 17.0,
+                                                  fontSize: 20.0,
                                                   fontWeight: FontWeight.w700,),
                                               ),
                                               SizedBox(width: 40),
-                                              Text("이수학점     ",
+                                              Text("  이수학점",
                                                 style: TextStyle(
                                                   color: Colors.black,
-                                                  fontSize: 17.0,
+                                                  fontSize: 20.0,
                                                   fontWeight: FontWeight.w700,),),
                                               SizedBox(width: 20),
                                             ],
@@ -457,13 +458,13 @@ class _MainScreenState extends State<MainScreen> {
                                         ),
                                       ),
                                       VerticalDivider(width: 1),
-                                      Expanded(
+                                      Expanded( //******이수학점하고 평점을 데이터에서 불러와야합니다. 그리고 점수 부분에 대해서 색깔만 따로 지정합니다(가능하다면)*****
                                         child: Padding(
-                                          padding: EdgeInsets.only(top: 0, bottom: 50),
+                                          padding: EdgeInsets.only(top: 0, bottom: 45),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
-                                              SizedBox(width: 40),
+                                              SizedBox(width: 25),
                                               Text("4.2 /4.5",
                                                 style: TextStyle(
                                                   color: Colors.black,
@@ -471,7 +472,7 @@ class _MainScreenState extends State<MainScreen> {
                                                   fontWeight: FontWeight.w700,),
                                               ),
                                               SizedBox(width: 50),
-                                              Text(" 65 /130    ",
+                                              Text("65 /130",
                                                 style: TextStyle(
                                                   color: Colors.black,
                                                   fontSize: 26.0,
@@ -514,16 +515,19 @@ class _MainScreenState extends State<MainScreen> {
           mainAxisSize: MainAxisSize.min,
           children: [
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
             ElevatedButton(
               onPressed: () {
                 _pickImage(ImageSource.camera);
               },
               child: const Text('사진찍기'),
-            ),
-            const SizedBox(
-              height: 10,
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                onPrimary: Colors.black,
+                shadowColor: Colors.white38,
+                elevation: 0,
+              ),
             ),
             const SizedBox(
               height: 10,
@@ -533,15 +537,30 @@ class _MainScreenState extends State<MainScreen> {
                 _pickImage(ImageSource.gallery);
               },
               child: const Text('라이브러리에서 불러오기'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                onPrimary: Colors.black,
+                shadowColor: Colors.white38,
+                elevation: 0,
+              ),
+              ),
+            const SizedBox(
+              height: 10,
             ),
             ElevatedButton(
               onPressed: () {
                 removeImage();
               },
               child: const Text('사진 삭제'),
+              style: ElevatedButton.styleFrom(
+                primary: Colors.white,
+                onPrimary: Colors.black,
+                shadowColor: Colors.white38,
+                elevation: 0,
+              ),
             ),
             const SizedBox(
-              height: 20,
+              height: 10,
             ),
           ],
         );

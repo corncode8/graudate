@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grad_gg/screen/search_page/Widget/loading_indicator.dart';
 import 'package:grad_gg/screen/search_page/select_department_screen.dart';
 
 class SelectCollegeScreen extends StatefulWidget {
@@ -16,8 +17,8 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
   static List<String> dbCollegeList = [];
   late List<String> displayList = [];
   late String lastRoute;
-  bool isLiked = false;
-  List favorite = [];
+  // bool isLiked = false;
+  // List favorite = [];
 
   collectCollegeList() async {
     dbCollegeList = [];
@@ -45,23 +46,23 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
     }
   }
 
-  toggleFavorite(String value) async {
-    setState(() {
-      if (favorite.contains(value)) {
-        favorite.remove(value);
-      } else {
-        favorite.add(value);
-      }
-    });
-    late String docid;
-    String userUid = getUserUid();
-    // final query =
-    //     await db.collection("학생").where("uuid", isEqualTo: userUid).get();
-    // docid = query.docs.first.id;
-    await db.collection("학생").doc(userUid).update({
-      "favorite": favorite.toSet().toList(),
-    });
-  }
+  // toggleFavorite(String value) async {
+  //   setState(() {
+  //     if (favorite.contains(value)) {
+  //       favorite.remove(value);
+  //     } else {
+  //       favorite.add(value);
+  //     }
+  //   });
+  //   late String docid;
+  //   String userUid = getUserUid();
+  //   // final query =
+  //   //     await db.collection("학생").where("uuid", isEqualTo: userUid).get();
+  //   // docid = query.docs.first.id;
+  //   await db.collection("학생").doc(userUid).update({
+  //     "favorite": favorite.toSet().toList(),
+  //   });
+  // }
 
   // initFavorite() async {
   //   late String docid;
@@ -97,22 +98,19 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TestPage"),
-        actions: [
-          IconButton(
-              onPressed: () {
-                collectCollegeList();
-              },
-              icon: const Icon(Icons.tab))
-        ],
+        title: const Text("단과대학 선택"),
+        // actions: [
+        //   IconButton(
+        //       onPressed: () {
+        //         collectCollegeList();
+        //       },
+        //       icon: const Icon(Icons.tab))
+        // ],
       ),
       body: displayList.isEmpty
-          ? const Center(
-              child: CircularProgressIndicator(),
-            )
+          ? const LoadingIndicator()
           : ListView.builder(
               itemBuilder: (BuildContext context, int index) {
-                final isLiked = favorite.contains(displayList[index]);
                 return Container(
                   // color: Colors.amber,
                   child: ListTile(
@@ -131,21 +129,10 @@ class _SelectCollegeScreenState extends State<SelectCollegeScreen> {
                     title: Text(
                       displayList[index],
                     ),
-                    leading: IconButton(
-                      icon: isLiked
-                          ? const Icon(
-                              Icons.favorite_outlined,
-                              color: Colors.red,
-                            )
-                          : const Icon(
-                              Icons.favorite_border_outlined,
-                              color: Colors.red,
-                            ),
-                      onPressed: () {
-                        toggleFavorite(displayList[index]);
-                      },
+                    leading: const Icon(
+                      Icons.circle,
+                      size: 15,
                     ),
-                    subtitle: const Text("subtitle"),
                   ),
                 );
               },
