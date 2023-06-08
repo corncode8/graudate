@@ -76,7 +76,6 @@ class _SelectDepartmentScreenState extends State<SelectDepartmentScreen> {
                       Icons.circle,
                       size: 15,
                     ),
-                    subtitle: const Text("subtitle"),
                   ),
                 );
               },
