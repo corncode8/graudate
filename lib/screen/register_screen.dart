@@ -136,41 +136,44 @@ class _RegisterScreenState extends State<RegisterScreen> {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 50),
+          padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.12),
           child: Column(
             children: [
-              const SizedBox(
-                height: 240,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.22,
               ),
               Row(
                 children: [
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text(
+                      Text(
                         '졸업.gg',
                         style: TextStyle(
-                          fontSize: 50,
+                          fontSize: MediaQuery.of(context).size.width * 0.13,
                           fontWeight: FontWeight.w600,
                         ),
                       ),
-                      const SizedBox(
-                        height: 5,
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.005,
                       ),
                       Transform.translate(
                         offset: const Offset(5, 0),
-                        child: const Text(
+                        child: Text(
                           'Register',
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.w400),
+                              fontSize:
+                                  MediaQuery.of(context).size.width * 0.07,
+                              fontWeight: FontWeight.w400),
                         ),
                       ),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(
-                height: 10,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.01,
               ),
               Column(
                 children: [
@@ -191,8 +194,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           )),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -211,8 +214,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           )),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -232,8 +235,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -253,8 +256,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 10,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.01,
                   ),
                   Container(
                     decoration: BoxDecoration(
@@ -301,10 +304,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       onPressed: () {
                         Navigator.pop(context);
                       },
-                      child: const Text(
+                      child: Text(
                         'Cancel',
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: MediaQuery.of(context).size.width * 0.04,
                           color: Colors.black,
                         ),
                       )),
@@ -313,31 +316,37 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       signUp();
                       Navigator.pop(context);
                     },
-                    child: const Text(
+                    child: Text(
                       'Register',
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 15,
+                        fontSize: MediaQuery.of(context).size.width * 0.04,
                       ),
                     ),
+                  ),
+                  TextButton(
+                    onPressed: () {
+                      print(MediaQuery.of(context).size);
+                    },
+                    child: const Text("눌러라"),
                   )
                 ],
               ),
-              const SizedBox(
-                height: 70,
+              SizedBox(
+                height: MediaQuery.of(context).size.height * 0.07,
               ),
               GestureDetector(
                 onTap: () {
                   signUp();
                 },
                 child: RichText(
-                  text: const TextSpan(
+                  text: TextSpan(
                     children: [
                       TextSpan(
                         text: 'I\'M READY! ➡️',
                         style: TextStyle(
                           color: Colors.black,
-                          fontSize: 50,
+                          fontSize: MediaQuery.of(context).size.width * 0.10,
                           fontWeight: FontWeight.w800,
                         ),
                       ),

@@ -19,6 +19,8 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
   bool isLiked = false;
   Map favorite = {};
   Map dbFavorite = {};
+  late List gradeData;
+  late List scoreData;
 
   getUserUid() {
     try {
@@ -67,10 +69,99 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
     }
   }
 
+  Future getScoreData() async {}
+
   dataTest() async {
-    final collRef = db.collection(widget.inputRoute).doc(widget.termid);
-    final data = await collRef.get();
-    print(favorite);
+    gradeData = [];
+    scoreData = [];
+    final String docid = getUserUid();
+    final userData = await db.collection("학생").doc(docid).get();
+    final term = [];
+    Map favoriteData = userData['favorite'];
+    for (var term in favoriteData.keys) {
+      Map subjectData = favoriteData[term];
+      for (var subject in subjectData.keys) {
+        if (subjectData[subject]['학점'] != null) {
+          scoreData.add(subjectData[subject]['학점']);
+        }
+        if (subjectData[subject]['점수'] != null &&
+            subjectData[subject]['점수'] != "") {
+          gradeData.add(subjectData[subject]['점수']);
+        }
+      }
+    }
+    setState(() {
+      scoreData = scoreData;
+      gradeData = gradeData;
+    });
+    //print(gradeData);
+    print(scoreData);
+    //calGradeData();
+    calScoreData();
+  }
+
+  String calScoreData() {
+    double resultScore = 0;
+    for (var score in scoreData) {
+      resultScore = resultScore + double.parse(score);
+    }
+    print(resultScore);
+    return resultScore.toString();
+  }
+
+  String calGradeData() {
+    double gradeScore = 0;
+    for (var score in gradeData) {
+      switch (score) {
+        case "A+":
+          {
+            gradeScore = gradeScore + 4.5;
+            break;
+          }
+        case "A0":
+          {
+            gradeScore = gradeScore + 4.0;
+            break;
+          }
+        case "B+":
+          {
+            gradeScore = gradeScore + 3.5;
+            break;
+          }
+        case "B0":
+          {
+            gradeScore = gradeScore + 3.0;
+            break;
+          }
+        case "C+":
+          {
+            gradeScore = gradeScore + 2.5;
+            break;
+          }
+        case "C0":
+          {
+            gradeScore = gradeScore + 2.0;
+            break;
+          }
+        case "D+":
+          {
+            gradeScore = gradeScore + 1.5;
+            break;
+          }
+        case "D0":
+          {
+            gradeScore = gradeScore + 1.0;
+            break;
+          }
+        case "F":
+          {
+            gradeScore = gradeScore + 0;
+            break;
+          }
+      }
+    }
+    print(gradeScore);
+    return gradeScore.toString();
   }
 
   toggleFavorite(String value) async {
@@ -122,14 +213,14 @@ class _SelectSubjectScreenState extends State<SelectSubjectScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("과목 선택"),
-        // actions: [
-        //   IconButton(
-        //       onPressed: () {
-        //         print("눌렀음");
-        //         dataTest();
-        //       },
-        //       icon: const Icon(Icons.tab))
-        // ],
+        actions: [
+          IconButton(
+              onPressed: () {
+                print("눌렀음");
+                dataTest();
+              },
+              icon: const Icon(Icons.tab))
+        ],
       ),
       body: displayList.isEmpty
           ? const Center(

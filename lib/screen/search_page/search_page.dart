@@ -84,9 +84,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   //   width: 90,
                   //   height: 50,
                   //   child: ElevatedButton(
-                  //     onPressed: () {
-                  //       Navigator.pushReplacementNamed(context, '/myspacePage');
-                  //     },
+                  //     onPressed: () {},
                   //     child: const Text("Myspace"),
                   //   ),
                   // ),
